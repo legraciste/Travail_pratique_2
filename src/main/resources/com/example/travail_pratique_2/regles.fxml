@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="30.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="Règles du jeu" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <TextArea prefHeight="398.0" prefWidth="600.0" editable="false" text="Objectif :&#10;Atteindre la case 100 avant l’adversaire.&#10;&#10;Déroulement d’une partie :&#10;- Le joueur commence toujours la partie.&#10;- Le joueur clique sur le dé pour obtenir un résultat.&#10;- Le pion avance du nombre de cases indiqué.&#10;- Si le pion termine sur une échelle, il monte automatiquement.&#10;- Si le pion termine sur un serpent, il descend automatiquement.&#10;- Après le tour du joueur, l’adversaire joue automatiquement.&#10;&#10;Échelles :&#10;Permettent de monter rapidement vers une case plus élevée.&#10;&#10;Serpents :&#10;Font redescendre vers une case plus basse.&#10;&#10;Règles du dé :&#10;- Le dé génère un nombre entre 1 et 6.&#10;- Le résultat doit être affiché visuellement.&#10;- Le pion se déplace exactement du nombre obtenu.&#10;&#10;Condition de victoire :&#10;- Le premier joueur à atteindre la case 100 gagne.&#10;- Le jeu s’arrête immédiatement.&#10;- Un message de victoire apparaît.&#10;&#10;Menu du jeu :&#10;- Recommencer : réinitialise la partie.&#10;- Quitter : retourne à l’écran d’accueil.&#10;&#10;Règle spéciale :&#10;Si un joueur dépasse la case 100, il reste sur place et attend son prochain tour.&#10;" />
+   </children>
+</VBox>
