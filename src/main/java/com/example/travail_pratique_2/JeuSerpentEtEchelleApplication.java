@@ -22,23 +22,14 @@ public class JeuSerpentEtEchelleApplication extends Application {
 
         JeuSerpentEtEchelleApplication.stage = stage;
         stage.setTitle("Jeu de Serpent et Echelle");
+
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
+
+        stage.setMaxWidth(1200);
+        stage.setMaxHeight(700);
+
         stage.setScene(accueil);
         stage.show();
-    }
-
-    public static void changementScene(String sceneDesiree, String titreScene) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(JeuSerpentEtEchelleApplication.class.getResource(sceneDesiree + ".fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), LARGEUR_APPLICATION, HAUTEUR_APPLICATION);
-        stage.setTitle(titreScene);
-        stage.setScene(scene);
-        stage.show();
-
-        switch(sceneDesiree)
-        {
-            case "menu-principal":
-                stage.setTitle("Menu Principal");
-
-                break;
-        }
     }
 }

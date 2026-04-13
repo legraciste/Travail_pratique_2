@@ -14,6 +14,11 @@ public class JeuSerpentEtEchelleController {
     @FXML
     private BorderPane sectionsApplication;
 
+//    @FXML
+//    private void initialize() throws IOException {
+//        chargerPage("Accueil");
+//    }
+
     @FXML
     private void chargerPage(String sceneDesiree) throws IOException {
         Parent page = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(sceneDesiree + ".fxml")));
@@ -22,7 +27,7 @@ public class JeuSerpentEtEchelleController {
 
     @FXML
     private void onBtnAccueilAction() throws IOException {
-        chargerPage("Accueil");
+        chargerPage("Acceuil");
     }
 
     @FXML
