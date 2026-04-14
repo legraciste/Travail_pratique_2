@@ -27,22 +27,40 @@ public class JeuSerpentEtEchelleController {
 
     @FXML
     private void onBtnAccueilAction() throws IOException {
-        chargerPage("Acceuil");
+        chargerPage("acceuil");
     }
 
     @FXML
     private void onBtnReglesAction() throws IOException {
         JeuSerpentEtEchelleApplication.stage.setTitle("Règles du jeu");
-        chargerPage("Regles");
+        chargerPage("regles");
     }
 
     @FXML
     private void onBtnJouerUnePartieAction() throws IOException {
-        chargerPage("Jeu");
+        JeuSerpentEtEchelleApplication.stage.setTitle("Jeu");
+        chargerPage("menu-principal");
     }
 
     @FXML
     private void onBtnQuitterLeJeuAction() throws IOException {
+        System.exit(0);
+    }
+
+    @FXML
+    private void onBtnCommencerAction() throws IOException {
+        JeuSerpentEtEchelleApplication.stage.setTitle("Jeu");
+        chargerPage("menu-principal");
+    }
+
+    @FXML
+    private void onBtnReglesAccueilAction() throws IOException {
+        JeuSerpentEtEchelleApplication.stage.setTitle("Règles du jeu");
+        chargerPage("regles");
+    }
+
+    @FXML
+    private void onBtnQuitterAccueilAction() throws IOException {
         System.exit(0);
     }
 }
