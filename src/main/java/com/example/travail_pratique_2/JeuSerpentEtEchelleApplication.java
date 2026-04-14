@@ -25,10 +25,9 @@ public class JeuSerpentEtEchelleApplication extends Application {
 
         controller = fxmlLoader.getController();
 
-        JeuSerpentEtEchelleApplication.chargerPage("acceuil");
-
         JeuSerpentEtEchelleApplication.stage = stage;
-        stage.setTitle("Acceuil");
+        stage.setTitle("Jeu de serpent et échelle");
+        JeuSerpentEtEchelleApplication.chargerPage("accueil");
 
         stage.setMinWidth(800);
         stage.setMinHeight(600);

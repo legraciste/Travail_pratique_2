@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
+import java.io.IOException;
+
 public class JeuController {
 
     @FXML
@@ -25,17 +27,18 @@ public class JeuController {
 
     @FXML
     void onBtnLancerDeAction(ActionEvent event) {
-
     }
 
     @FXML
-    void onBtnRecommencerPartieAction(ActionEvent event) {
-
+    void onBtnRecommencerPartieAction(ActionEvent event) throws IOException {
+        JeuSerpentEtEchelleApplication.stage.setTitle("jeu");
+        JeuSerpentEtEchelleApplication.chargerPage("jeu");
     }
 
     @FXML
-    void onBtnRetournerAccueilAction(ActionEvent event) {
-
+    void onBtnRetournerAccueilAction(ActionEvent event) throws IOException {
+        JeuSerpentEtEchelleApplication.stage.setTitle("Jeu de serpent et échelle");
+        JeuSerpentEtEchelleApplication.chargerPage("accueil");
     }
 
 }

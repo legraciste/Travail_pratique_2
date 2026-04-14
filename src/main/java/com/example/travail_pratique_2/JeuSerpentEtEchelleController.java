@@ -2,7 +2,9 @@ package com.example.travail_pratique_2;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
+import javax.swing.text.html.MinimalHTMLWriter;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class JeuSerpentEtEchelleController{
 
@@ -15,7 +17,8 @@ public class JeuSerpentEtEchelleController{
 
     @FXML
     private void onBtnAccueilAction() throws IOException {
-        JeuSerpentEtEchelleApplication.chargerPage("JeuSerpentEtEchelle");
+        JeuSerpentEtEchelleApplication.stage.setTitle("jeu de serpent et échelle");
+        JeuSerpentEtEchelleApplication.chargerPage("accueil");
     }
 
     @FXML
