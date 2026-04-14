@@ -20,11 +20,11 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
                <children>
-                  <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to bottom, #8D6E63, #6D4C41); -fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #5D4037; -fx-border-width: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 3, 0.2, 0, 0);" text="Retourner à l'accueil" textFill="WHITE">
+                  <Button fx:id="boutonRetourAccueil" mnemonicParsing="false" onAction="#onBtnRetournerAccueilAction" style="-fx-background-color: linear-gradient(to bottom, #8D6E63, #6D4C41); -fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #5D4037; -fx-border-width: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 3, 0.2, 0, 0);" text="Retourner à l'accueil" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font></Button>
-                  <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to bottom, #2196F3, #1976D2); -fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #0D47A1; -fx-border-width: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 3, 0.2, 0, 0);" text="Recommencer la partie" textFill="WHITE">
+                  <Button fx:id="boutonRecommencerPartie" mnemonicParsing="false" onAction="#onBtnRecommencerPartieAction" style="-fx-background-color: linear-gradient(to bottom, #2196F3, #1976D2); -fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #0D47A1; -fx-border-width: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 3, 0.2, 0, 0);" text="Recommencer la partie" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font></Button>
@@ -190,25 +190,22 @@
             </Pane>
             <HBox alignment="CENTER_LEFT" prefHeight="114.0" prefWidth="648.0" spacing="200.0">
                <children>
-                  <Label prefHeight="35.0" prefWidth="250.0" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: orange;" text="Tour du joueur">
+                  <Label fx:id="labelTourDuJoueur" alignment="CENTER" prefHeight="0.0" prefWidth="189.0" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: linear-gradient(to right, #4CAF50, #45A049); -fx-background-radius: 10; -fx-padding: 2 5 2 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 5, 0.2, 0, 0);" text="Tour du joueur">
                      <font>
-                        <Font size="24.0" />
+                        <Font size="18.0" />
                      </font>
-                     <padding>
-                        <Insets left="15.0" />
-                     </padding>
                      <HBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="10.0" left="15.0" />
                      </HBox.margin>
                   </Label>
-                  <VBox alignment="CENTER" prefHeight="94.0" prefWidth="150.0" style="-fx-background-radius: 15; -fx-padding: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.2, 0, 0);">
+                  <VBox alignment="CENTER" prefHeight="114.0" prefWidth="174.0" style="-fx-background-radius: 15; -fx-padding: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0.2, 0, 0);">
                      <children>
                         <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 3, 0.2, 0, 0);">
                            <image>
                               <Image url="@../../../images/Face_de_de_numero_1.png" />
                            </image>
                         </ImageView>
-                        <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to bottom, #FF5722, #D84315); -fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #BF360C; -fx-border-width: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 3, 0.2, 0, 0);" text="Lancer le dé">
+                        <Button fx:id="boutonLancerDe" mnemonicParsing="false" onAction="#onBtnLancerDeAction" prefHeight="33.0" prefWidth="162.0" style="-fx-background-color: linear-gradient(to bottom, #FF9800, #F57C00); -fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #E65100; -fx-border-width: 2; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 3, 0.2, 0, 0);" text="Lancer le dé">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
