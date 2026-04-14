@@ -39,7 +39,7 @@ public class JeuSerpentEtEchelleController {
     @FXML
     private void onBtnJouerUnePartieAction() throws IOException {
         JeuSerpentEtEchelleApplication.stage.setTitle("Jeu");
-        chargerPage("menu-principal");
+        chargerPage("jeu");
     }
 
     @FXML
