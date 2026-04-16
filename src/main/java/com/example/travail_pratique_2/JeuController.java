@@ -11,12 +11,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.fxml.Initializable;
 import javafx.util.Duration;
-
 import java.net.URL;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 public class JeuController implements Initializable {
@@ -130,7 +128,7 @@ public class JeuController implements Initializable {
         traiterTourJoueur(joueur, numeroDuLancer);
 
         if (Mecanisme.joueurVainqueur(joueur)) {
-            labelTourDuJoueur.setText("Félicitations ! Vous avez gagné !");
+            labelTourDuJoueur.setText("**Le joueur a gagné**");
             terminerJeu();
             return;
         }
@@ -153,12 +151,12 @@ public class JeuController implements Initializable {
             lancementDuDe(lancerOrdi);
             try {
                 traiterTourOrdinateur(ordinateur);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+            } catch (IOException exception) {
+                throw new RuntimeException(exception);
             }
 
             if (Mecanisme.joueurVainqueur(ordinateur)) {
-                labelTourDuJoueur.setText("L'ordinateur a gagné. Essayez à nouveau !");
+                labelTourDuJoueur.setText("**L'ordinateur a gagné**");
                 terminerJeu();
                 return;
             }
@@ -173,13 +171,13 @@ public class JeuController implements Initializable {
     @FXML
     void onBtnRecommencerPartieAction(ActionEvent event) throws IOException {
         JeuSerpentEtEchelleApplication.stage.setTitle("jeu");
-        JeuSerpentEtEchelleApplication.chargerPage("jeu");
+        JeuSerpentEtEchelleApplication.chargerPage("jeu-view");
     }
 
     @FXML
     void onBtnRetournerAccueilAction(ActionEvent event) throws IOException {
         JeuSerpentEtEchelleApplication.stage.setTitle("Jeu de serpent et échelle");
-        JeuSerpentEtEchelleApplication.chargerPage("accueil");
+        JeuSerpentEtEchelleApplication.chargerPage("accueil-view");
     }
 
     /**
@@ -211,7 +209,9 @@ public class JeuController implements Initializable {
 
             // Vérification des collisions avec l'ordinateur
             // Si les deux joueurs sont sur la même case, le joueur avance de +1
-            Mecanisme.gererCollision(joueur, pionVert, ordinateur);
+            if(Mecanisme.gererCollision(joueur, pionVert, ordinateur)) {;
+                Mecanisme.deplacerPion(pionVert, joueur); // Si une collision a été gérée, déplacer le pion du joueur à sa nouvelle position
+            }
 
             // Le dé a été lancé, le tour est terminé
             tourTermine = true;
@@ -248,7 +248,9 @@ public class JeuController implements Initializable {
 
         // Vérification des collisions avec le joueur humain
         // Si les deux joueurs sont sur la même case, l'ordinateur avance de +1
-        Mecanisme.gererCollision(ordinateur, pionRouge, joueur);
+        if(Mecanisme.gererCollision(ordinateur, pionRouge, joueur)) {;
+            Mecanisme.deplacerPion(pionRouge, ordinateur); // Si une collision a été gérée, déplacer le pion de l'ordinateur à sa nouvelle position
+        }
     }
 
 
@@ -258,6 +260,6 @@ public class JeuController implements Initializable {
      **/
     private void terminerJeu() {
         tourDuJoueur = false; // Désactive les actions du joueur
-        txtAreaMessage.setText("Le jeu est terminé. Merci d'avoir joué !");
+        txtAreaMessage.setText("Le jeu est terminé.\n Merci d'avoir\n joué !");
     }
 }

@@ -18,19 +18,19 @@ public class JeuSerpentEtEchelleController{
     @FXML
     private void onBtnAccueilAction() throws IOException {
         JeuSerpentEtEchelleApplication.stage.setTitle("jeu de serpent et échelle");
-        JeuSerpentEtEchelleApplication.chargerPage("accueil");
+        JeuSerpentEtEchelleApplication.chargerPage("accueil-view");
     }
 
     @FXML
     private void onBtnReglesAction() throws IOException {
         JeuSerpentEtEchelleApplication.stage.setTitle("Règles du jeu");
-        JeuSerpentEtEchelleApplication.chargerPage("regles");
+        JeuSerpentEtEchelleApplication.chargerPage("regles-view");
     }
 
     @FXML
     private void onBtnJouerUnePartieAction() throws IOException {
         JeuSerpentEtEchelleApplication.stage.setTitle("Jeu");
-        JeuSerpentEtEchelleApplication.chargerPage("jeu");
+        JeuSerpentEtEchelleApplication.chargerPage("jeu-view");
     }
 
     @FXML

@@ -20,14 +20,14 @@ public class JeuSerpentEtEchelleApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(JeuSerpentEtEchelleApplication.class.getResource("menu-principal.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(JeuSerpentEtEchelleApplication.class.getResource("menu_principal-view.fxml"));
         Scene accueil = new Scene(fxmlLoader.load(), LARGEUR_APPLICATION, HAUTEUR_APPLICATION);
 
         controller = fxmlLoader.getController();
 
         JeuSerpentEtEchelleApplication.stage = stage;
         stage.setTitle("Jeu de serpent et échelle");
-        JeuSerpentEtEchelleApplication.chargerPage("accueil");
+        JeuSerpentEtEchelleApplication.chargerPage("accueil-view");
 
         stage.setMinWidth(800);
         stage.setMinHeight(600);

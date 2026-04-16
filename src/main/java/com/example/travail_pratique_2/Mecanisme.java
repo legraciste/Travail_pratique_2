@@ -29,10 +29,13 @@ public class Mecanisme {
      * @param joueur le joueur à vérifier
      * @return un boolean indiquant si une échelle ou un serpent a été appliqué (true) ou non (false)
      **/
-    public static void surCaseEchelleOuSerpent(Button pion, Joueur joueur) {
+    public static boolean surCaseEchelleOuSerpent(Button pion, Joueur joueur) {
         if (JeuController.SERPENTS_ET_ECHELLES.get(joueur.getPosition()) != null) {
             joueur.setPosition(JeuController.SERPENTS_ET_ECHELLES.get(joueur.getPosition()));
             deplacerPion(pion, joueur);
+            return true;
+        }else{
+            return false;
         }
     }
 
@@ -97,15 +100,16 @@ public class Mecanisme {
      * @param joueur2 le deuxième joueur
      * @return le message décrivant l'événement après collision, ou "non" si aucun événement
      **/
-    public static void gererCollision(Joueur joueur1, Button pion, Joueur joueur2) {
+    public static boolean gererCollision(Joueur joueur1, Button pion, Joueur joueur2) {
         // Vérifier si les deux joueurs sont sur la même case
         if (joueur1.getPosition() == joueur2.getPosition()) {
             // Déplacer le joueur1 d'une case supplémentaire (+1) pour éviter la collision
             joueur1.setPosition(joueur1.getPosition() + 1);
 
             // Vérifier si la nouvelle position contient une échelle ou un serpent
-            // et retourner le message correspondant (ou "non" si pas d'événement)
-            surCaseEchelleOuSerpent(pion, joueur1);
+            return !surCaseEchelleOuSerpent(pion, joueur1); // Retourne false si une échelle ou un serpent a été appliqué, true sinon
+        }else{
+            return false; // Pas de collision, retourner false
         }
     }
 }
