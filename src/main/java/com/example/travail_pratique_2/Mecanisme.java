@@ -1,8 +1,11 @@
 package com.example.travail_pratique_2;
 
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
@@ -26,12 +29,10 @@ public class Mecanisme {
      * @param joueur le joueur à vérifier
      * @return un boolean indiquant si une échelle ou un serpent a été appliqué (true) ou non (false)
      **/
-    public static boolean surCaseEchelleOuSerpent(Joueur joueur) {
+    public static void surCaseEchelleOuSerpent(Button pion, Joueur joueur) {
         if (JeuController.SERPENTS_ET_ECHELLES.get(joueur.getPosition()) != null) {
             joueur.setPosition(JeuController.SERPENTS_ET_ECHELLES.get(joueur.getPosition()));
-            return true;
-        } else {
-            return false;
+            deplacerPion(pion, joueur);
         }
     }
 
@@ -45,7 +46,7 @@ public class Mecanisme {
         }
 
         // 2. Calculer la position zigzag
-        int position = joueur.getPosition(); // 0 à 99
+        int position = joueur.getPosition() - 1; // position 1 correspond à l'index 0
 
         int ligne = 9 - (position / 10); // ligne du bas = 9
         int colonne;
@@ -57,6 +58,11 @@ public class Mecanisme {
             // ligne zigzag (droite → gauche)
             colonne = 9 - (position % 10);
         }
+
+        // 4. Centrer le pion dans la cellule
+        GridPane.setHalignment(pion, HPos.CENTER);
+        GridPane.setValignment(pion, VPos.CENTER);
+
 
         // 3. Ajouter le pion dans la nouvelle case
         controller.gridPaneGrilleDeJeu.add(pion, colonne, ligne);
@@ -91,7 +97,7 @@ public class Mecanisme {
      * @param joueur2 le deuxième joueur
      * @return le message décrivant l'événement après collision, ou "non" si aucun événement
      **/
-    public static boolean gererCollision(Joueur joueur1, Joueur joueur2) {
+    public static void gererCollision(Joueur joueur1, Button pion, Joueur joueur2) {
         // Vérifier si les deux joueurs sont sur la même case
         if (joueur1.getPosition() == joueur2.getPosition()) {
             // Déplacer le joueur1 d'une case supplémentaire (+1) pour éviter la collision
@@ -99,9 +105,7 @@ public class Mecanisme {
 
             // Vérifier si la nouvelle position contient une échelle ou un serpent
             // et retourner le message correspondant (ou "non" si pas d'événement)
-            return surCaseEchelleOuSerpent(joueur1);
-        }else{
-            return false;
+            surCaseEchelleOuSerpent(pion, joueur1);
         }
     }
 }

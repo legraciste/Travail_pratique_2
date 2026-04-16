@@ -1,5 +1,6 @@
 package com.example.travail_pratique_2;
 
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,6 +10,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.fxml.Initializable;
+import javafx.util.Duration;
+
 import java.net.URL;
 import java.io.IOException;
 import java.util.HashMap;
@@ -29,6 +32,17 @@ public class JeuController implements Initializable {
     private Joueur ordinateur = new Joueur('A');
     Button pionVert;
     Button pionRouge;
+
+    String styleDesPions = "-fx-text-fill: black;" +
+                    "-fx-font-weight: bold;" +
+                    "-fx-font-size: 16px;" +
+                    "-fx-background-radius: 50%;" +
+                    "-fx-border-radius: 50%;" +
+                    "-fx-border-color: black;" +
+                    "-fx-border-width: 2px;" +
+                    "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 4, 0.5, 0, 2);" +
+                    "-fx-alignment: center;" +
+                    "-fx-background-color: "; // La couleur de fond sera ajoutée dynamiquement pour chaque pion
 
     boolean tourDuJoueur = true; // true si c'est le tour du joueur, false pour l'ordinateur
 
@@ -85,29 +99,11 @@ public class JeuController implements Initializable {
 
         // Style du pion du joueur
         pionVert.setPrefSize(35, 35);      // taille du pion du joueur
-        pionVert.setStyle(
-                "-fx-background-color: #2ecc71;" +
-                        "-fx-text-fill: black;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-font-size: 16px;" +
-                        "-fx-background-radius: 50%;" +
-                        "-fx-border-radius: 50%;" +
-                        "-fx-border-color: black;" +
-                        "-fx-border-width: 2px;"
-        );
+        pionVert.setStyle(styleDesPions + "#2ecc71;"); // Couleur de fond verte pour le joueur
 
         // Style du pion de l'ordinateur
         pionRouge.setPrefSize(35, 35);      // taille du pion de l'ordinateur
-        pionRouge.setStyle(
-                "-fx-background-color: #bf4324;" +
-                        "-fx-text-fill: black;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-font-size: 16px;" +
-                        "-fx-background-radius: 50%;" +
-                        "-fx-border-radius: 50%;" +
-                        "-fx-border-color: black;" +
-                        "-fx-border-width: 2px;"
-        );
+        pionRouge.setStyle(styleDesPions + "#e74c3c;"); // Couleur de fond rouge pour l'ordinateur
     }
 
     public void lancementDuDe(int numeroDuLancer) {
@@ -125,26 +121,53 @@ public class JeuController implements Initializable {
 
     @FXML
     void onBtnLancerDeAction(ActionEvent event) throws IOException {
-        if (tourDuJoueur) {
-            int numeroDuLancer = joueur.lancerLeDe();
-            lancementDuDe(numeroDuLancer);
-            traiterTourJoueur(joueur, numeroDuLancer);
-            if(Mecanisme.joueurVainqueur(joueur)) {
-                txtAreaMessage.setText("Félicitations ! Vous avez gagné !");
-                terminerJeu();
-            } else {
-                tourDuJoueur = false; // Passe le tour à l'ordinateur
-                labelTourDuJoueur.setText("Tour de l'ordinateur");
-                traiterTourOrdinateur(ordinateur);
-                if(Mecanisme.joueurVainqueur(ordinateur)) {
-                    txtAreaMessage.setText("L'ordinateur a gagné. Essayez à nouveau !");
-                    terminerJeu();
-                } else {
-                    tourDuJoueur = true; // Redonne le tour au joueur
-                    labelTourDuJoueur.setText("Tour du joueur");
-                }
-            }
+
+        if (!tourDuJoueur) return;
+
+        // --- Tour du joueur ---
+        int numeroDuLancer = joueur.lancerLeDe();
+        lancementDuDe(numeroDuLancer);
+        traiterTourJoueur(joueur, numeroDuLancer);
+
+        if (Mecanisme.joueurVainqueur(joueur)) {
+            labelTourDuJoueur.setText("Félicitations ! Vous avez gagné !");
+            terminerJeu();
+            return;
         }
+
+        // Passe au tour de l'ordinateur
+        tourDuJoueur = false;
+        labelTourDuJoueur.setText("**Tour de l'ordinateur**");
+
+        // --- Délai avant le tour de l'ordinateur ---
+        PauseTransition pause = getPauseTransition();
+
+        pause.play();
+    }
+
+    private PauseTransition getPauseTransition() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(2)); // Délai de 2 secondes avant le tour de l'ordinateur
+        pause.setOnFinished(e -> {
+
+            int lancerOrdi = ordinateur.lancerLeDe();
+            lancementDuDe(lancerOrdi);
+            try {
+                traiterTourOrdinateur(ordinateur);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            if (Mecanisme.joueurVainqueur(ordinateur)) {
+                labelTourDuJoueur.setText("L'ordinateur a gagné. Essayez à nouveau !");
+                terminerJeu();
+                return;
+            }
+
+            // Retour au joueur
+            tourDuJoueur = true;
+            labelTourDuJoueur.setText("**Tour du joueur**");
+        });
+        return pause;
     }
 
     @FXML
@@ -177,22 +200,18 @@ public class JeuController implements Initializable {
             // Math.min() assure qu'on ne dépasse pas la case 100
             int nouvellePosition = Math.min(resultatDuLance + joueur.getPosition(), 100);
 
+            txtAreaMessage.setText(txtAreaMessage.getText() + "-Le Joueur\n se déplace\n de " + joueur.getPosition() + " à " + nouvellePosition + "\n");
+
             // Mise à jour de la position du joueur
             joueur.setPosition(nouvellePosition);
 
-            txtAreaMessage.setText("Joueur se déplace de " + joueur.getPosition() + " à " + nouvellePosition);
+            Mecanisme.surCaseEchelleOuSerpent(pionVert, joueur); // Vérification des événements (échelles/serpents) et déplacement du pion en conséquence
 
-            if (Mecanisme.surCaseEchelleOuSerpent(joueur)) {
-                Mecanisme.deplacerPion(pionVert, joueur);
-            }else{
-                Mecanisme.deplacerPion(pionRouge, ordinateur);
-            }
+            Mecanisme.deplacerPion(pionVert, joueur);
 
             // Vérification des collisions avec l'ordinateur
             // Si les deux joueurs sont sur la même case, le joueur avance de +1
-            if (Mecanisme.gererCollision(joueur, ordinateur)) {
-                Mecanisme.deplacerPion(pionVert, joueur);
-            }
+            Mecanisme.gererCollision(joueur, pionVert, ordinateur);
 
             // Le dé a été lancé, le tour est terminé
             tourTermine = true;
@@ -218,24 +237,18 @@ public class JeuController implements Initializable {
         // Calcul de la nouvelle position de l'ordinateur
         // Math.min() assure qu'on ne dépasse pas la case 100
         int nouvellePosition = Math.min(resultatDuLance + ordinateur.getPosition(), 100);
-        txtAreaMessage.setText("L'Ordinateur\n se déplace\n de " + ordinateur.getPosition() + " à " + nouvellePosition);
+        txtAreaMessage.setText(txtAreaMessage.getText() + "-L'Ordinateur\n se déplace\n de " + ordinateur.getPosition() + " à " + nouvellePosition + "\n");
 
         // Mise à jour de la position de l'ordinateur
         ordinateur.setPosition(nouvellePosition);
 
-        if (Mecanisme.surCaseEchelleOuSerpent(joueur)) {
-            Mecanisme.deplacerPion(pionVert, joueur);
-        }else{
-            Mecanisme.deplacerPion(pionRouge, ordinateur);
-        }
+        Mecanisme.surCaseEchelleOuSerpent(pionRouge, ordinateur); // Vérification des événements (échelles/serpents) et déplacement du pion en conséquence
+
+        Mecanisme.deplacerPion(pionRouge, ordinateur);
 
         // Vérification des collisions avec le joueur humain
         // Si les deux joueurs sont sur la même case, l'ordinateur avance de +1
-        // Vérification des collisions avec l'ordinateur
-        // Si les deux joueurs sont sur la même case, le joueur avance de +1
-        if (Mecanisme.gererCollision(joueur, ordinateur)) {
-            Mecanisme.deplacerPion(pionVert, joueur);
-        }
+        Mecanisme.gererCollision(ordinateur, pionRouge, joueur);
     }
 
 
