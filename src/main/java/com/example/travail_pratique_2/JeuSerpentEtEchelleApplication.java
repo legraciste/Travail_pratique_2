@@ -8,6 +8,15 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Classe principale de l'application, qui étend la classe Application de JavaFX et qui est responsable
+ * de l'initialisation de l'application, du chargement de la scène principale et de la gestion des différentes
+ * pages de l'application. Elle contient une méthode statique pour charger les différentes pages de l'application
+ * dans la section centrale de l'application, qui est utilisée par les différentes méthodes du contrôleur pour charger
+ * les différentes pages de l'application (accueil, règles du jeu, jeu, etc.)
+ * @author Joseph Legraciste Kamdem
+ * @version 1.0
+ ***/
 public class JeuSerpentEtEchelleApplication extends Application {
 
     static Stage stage; // Permet de stocker la référence à la scène principale de l'application

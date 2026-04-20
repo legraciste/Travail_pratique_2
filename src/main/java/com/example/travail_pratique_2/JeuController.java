@@ -17,6 +17,17 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Controller pour la page de jeu du serpent et échelle.
+ * Ce controller gère la logique du jeu, y compris les interactions du joueur,
+ * les déplacements des pions, les événements liés aux échelles et serpents, et
+ * la gestion des tours entre le joueur humain et l'ordinateur.
+ * Il utilise des éléments de l'interface utilisateur définis dans
+ * le fichier FXML associé (jeu-view.fxml) pour afficher la grille de jeu,
+ * les pions, les messages d'information, et les boutons d'action.
+ * @author Joseph Legraciste Kamdem
+ * @version 1.0
+ * **/
 public class JeuController implements Initializable {
 
     private static JeuController instance; // Instance statique pour permettre l'accès à ce controller depuis d'autres classes (ex: Mecanisme)
@@ -46,19 +57,13 @@ public class JeuController implements Initializable {
     boolean tourDuJoueur = true; // true si c'est le tour du joueur, false pour l'ordinateur
 
     @FXML
-    private ImageView imageFaceDuDe;
-
-    @FXML
-    private Button boutonRecommencerPartie;
-
-    @FXML
-    private Button boutonRetourAccueil;
+    private ImageView imageFaceDuDe; // ImageView pour afficher la face du dé correspondant au résultat du lancer de dé
 
     @FXML
     private Label labelTourDuJoueur; // Label pour indiquer le tour actuel (joueur ou ordinateur)
 
     @FXML
-    private TextArea txtAreaMessage; // TextArea pour afficher les messages d'information sur les déplacements, les événements (échelles/serpents) et les collisions
+    TextArea txtAreaMessage; // TextArea pour afficher les messages d'information sur les déplacements, les événements (échelles/serpents) et les collisions
 
     /**
      * Constructeur du controller de jeu. Initialise l'instance statique

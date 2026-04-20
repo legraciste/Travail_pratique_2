@@ -6,6 +6,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 
+/**
+ * Cette classe est le contrôleur principal de l'application de jeu de serpent et échelle.
+ * Elle gère les interactions de l'utilisateur avec le menu principal de l'application,
+ * qui permet aux utilisateurs d'accéder à différentes pages de l'application,
+ * telles que la page d'accueil, la page des règles du jeu, la page de jeu et la page de quitter le jeu.
+ * @author Joseph Legraciste Kamdem
+ * @version 1.0
+ ***/
 public class JeuSerpentEtEchelleController{
 
     @FXML

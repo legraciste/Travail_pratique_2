@@ -15,8 +15,10 @@ import javafx.scene.layout.GridPane;
  * @author Joseph Legraciste Kamdem
  * @version 1.0
  **/
-
 public class Mecanisme {
+
+    static JeuController controller = JeuController.getInstance(); // Récupérer l'instance du contrôleur pour accéder à la grille de jeu et aux autres éléments nécessaires à la gestion des événements du jeu
+
     /**
      * Vérifie si le joueur est sur une échelle ou un serpent et applique l'effet correspondant.
      * Une échelle fait monter le joueur.
@@ -27,6 +29,11 @@ public class Mecanisme {
      **/
     public static boolean surCaseEchelleOuSerpent(Button pion, Joueur joueur) {
         if (JeuController.SERPENTS_ET_ECHELLES.get(joueur.getPosition()) != null) {
+            if(JeuController.SERPENTS_ET_ECHELLES.get(joueur.getPosition()) > joueur.getPosition()) {
+                controller.txtAreaMessage.setText(controller.txtAreaMessage.getText() + ", il a attrapé\n une échelle\n"); // Affiche un message indiquant que le joueur a attrapé une échelle
+            }else{
+                controller.txtAreaMessage.setText(controller.txtAreaMessage.getText() + ", il a attrapé\n un serpent\n"); // Affiche un message indiquant que le joueur a attrapé un serpent
+            }
             joueur.setPosition(JeuController.SERPENTS_ET_ECHELLES.get(joueur.getPosition())); // Met à jour la position du joueur en fonction de l'échelle ou du serpent
             deplacerPion(pion, joueur); // Déplace le pion du joueur sur la grille en fonction de sa nouvelle position
             return true;
@@ -44,8 +51,6 @@ public class Mecanisme {
      * **/
 
     public static void deplacerPion(Button pion, Joueur joueur) {
-
-        JeuController controller = JeuController.getInstance();
 
         // 1. Retirer le pion de son ancienne case
         if (pion.getParent() != null) {
