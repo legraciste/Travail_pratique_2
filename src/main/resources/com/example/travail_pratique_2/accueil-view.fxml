@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="648.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.travail_pratique_2.JeuSerpentEtEchelleController">
+   <children>
+      <ImageView fitHeight="538.0" fitWidth="599.0" preserveRatio="false">
+         <image>
+            <Image url="@../../../images/image_accueil_du_jeu.png" />
+         </image>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" color="BLACK" height="10.0" radius="10.0" spread="0.5" width="10.0" />
+         </effect>
+      </ImageView>
+   </children>
+</StackPane>
