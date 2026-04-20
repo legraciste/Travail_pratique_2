@@ -1,13 +1,9 @@
 package com.example.travail_pratique_2;
 
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-
-import java.io.IOException;
 
 /**
  * Classe responsable de la gestion de la logique des événements du jeu.
@@ -25,19 +21,27 @@ public class Mecanisme {
      * Vérifie si le joueur est sur une échelle ou un serpent et applique l'effet correspondant.
      * Une échelle fait monter le joueur.
      * Un serpent fait descendre le joueur.
-     *
+     * @param pion le bouton représentant le pion du joueur à déplacer en cas d'échelle ou de serpent
      * @param joueur le joueur à vérifier
      * @return un boolean indiquant si une échelle ou un serpent a été appliqué (true) ou non (false)
      **/
     public static boolean surCaseEchelleOuSerpent(Button pion, Joueur joueur) {
         if (JeuController.SERPENTS_ET_ECHELLES.get(joueur.getPosition()) != null) {
-            joueur.setPosition(JeuController.SERPENTS_ET_ECHELLES.get(joueur.getPosition()));
-            deplacerPion(pion, joueur);
+            joueur.setPosition(JeuController.SERPENTS_ET_ECHELLES.get(joueur.getPosition())); // Met à jour la position du joueur en fonction de l'échelle ou du serpent
+            deplacerPion(pion, joueur); // Déplace le pion du joueur sur la grille en fonction de sa nouvelle position
             return true;
         }else{
             return false;
         }
     }
+
+    /**
+     * Déplace le pion du joueur sur la grille de jeu en fonction de sa position actuelle.
+     * La grille est organisée en zigzag : les cases 1 à 10 vont de gauche à droite, les cases 11 à 20
+     * vont de droite à gauche, et ainsi de
+     * @param pion le bouton représentant le pion du joueur à déplacer
+     * @param joueur le joueur dont la position doit être mise à jour sur la grille
+     * **/
 
     public static void deplacerPion(Button pion, Joueur joueur) {
 
@@ -55,10 +59,10 @@ public class Mecanisme {
         int colonne;
 
         if ((9 - ligne) % 2 == 0) {
-            // ligne normale (gauche → droite)
+            // ligne normale (gauche vers la droite)
             colonne = position % 10;
         } else {
-            // ligne zigzag (droite → gauche)
+            // ligne zigzag (droite vers la gauche)
             colonne = 9 - (position % 10);
         }
 
@@ -98,7 +102,8 @@ public class Mecanisme {
      *
      * @param joueur1 le premier joueur (celui qui se déplace en priorité)
      * @param joueur2 le deuxième joueur
-     * @return le message décrivant l'événement après collision, ou "non" si aucun événement
+     * @return fasle si un echelle ou un serpent a été appliqué à joueur1 après la collision ou
+     * si aucune collision n'a eu lieu, true si joueur1 a avancé d'une case sans rencontrer d'échelle ou de serpent
      **/
     public static boolean gererCollision(Joueur joueur1, Button pion, Joueur joueur2) {
         // Vérifier si les deux joueurs sont sur la même case
