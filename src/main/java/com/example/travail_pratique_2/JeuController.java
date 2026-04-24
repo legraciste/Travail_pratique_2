@@ -37,8 +37,8 @@ public class JeuController implements Initializable {
 
     static final HashMap<Integer, Integer> SERPENTS_ET_ECHELLES = new HashMap<>(); // Map statique pour stocker les positions des serpents et échelles, accessible depuis d'autres classes (ex: Mecanisme)
 
-    private Joueur joueur = new Joueur('J'); // Joueur humain, représenté par le pion vert
-    private Joueur ordinateur = new Joueur('A'); // Joueur ordinateur, représenté par le pion rouge
+    private final Joueur joueur = new Joueur('J'); // Joueur humain, représenté par le pion vert
+    private final Joueur ordinateur = new Joueur('A'); // Joueur ordinateur, représenté par le pion rouge
     Button pionVert; // Pion du joueur humain
     Button pionRouge; // Pion de l'ordinateur
 
@@ -87,6 +87,9 @@ public class JeuController implements Initializable {
      * @param resourceBundle le ResourceBundle utilisé pour localiser les chaînes de caractères (non utilisé dans cette méthode)
      * **/
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        instance = this;
+        Mecanisme.miseAJourDuController();
 
         // Initialisation des serpents et échelles
         SERPENTS_ET_ECHELLES.put(2, 23);

@@ -17,7 +17,7 @@ import javafx.scene.layout.GridPane;
  **/
 public class Mecanisme {
 
-    static JeuController controller = JeuController.getInstance(); // Récupérer l'instance du contrôleur pour accéder à la grille de jeu et aux autres éléments nécessaires à la gestion des événements du jeu
+    static JeuController controller; // Référence statique au contrôleur pour permettre l'accès aux éléments de l'interface utilisateur depuis les méthodes statiques de cette classe, notamment pour afficher des messages dans la zone de texte et pour déplacer les pions sur la grille de jeu
 
     /**
      * Vérifie si le joueur est sur une échelle ou un serpent et applique l'effet correspondant.
@@ -121,6 +121,10 @@ public class Mecanisme {
         }else{
             return false; // Pas de collision, retourner false
         }
+    }
+
+    public static void miseAJourDuController(){
+        controller = JeuController.getInstance(); // Mettre à jour la référence au contrôleur pour s'assurer qu'elle pointe vers l'instance actuelle du contrôleur, surtout après le chargement de nouvelles pages ou la réinitialisation du jeu
     }
 }
 
