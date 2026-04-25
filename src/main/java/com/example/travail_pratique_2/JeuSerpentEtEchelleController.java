@@ -65,15 +65,27 @@ public class JeuSerpentEtEchelleController{
      * **/
     @FXML
     private void onBtnQuitterLeJeuAction() throws IOException {
-        Alert confirmationQuitter = new Alert(Alert.AlertType.CONFIRMATION); // Créer une boîte de dialogue de confirmation pour quitter le jeu
-        confirmationQuitter.setTitle("Confirmation de quitter le jeu"); // Définir le titre de la boîte de dialogue
-        confirmationQuitter.setHeaderText("Êtes-vous sûr de vouloir quitter le jeu ?"); // Définir le texte d'en-tête de la boîte de dialogue
-        confirmationQuitter.setContentText("Cliquez sur OK pour quitter, ou sur Annuler pour rester dans le jeu."); // Définir le texte de contenu de la boîte de dialogue
+        Alert confirmationQuitter = getAlert();
         // Afficher la boîte de dialogue et attendre la réponse de l'utilisateur
         if(confirmationQuitter.showAndWait().orElse(null) == ButtonType.OK){
             JeuSerpentEtEchelleApplication.stage.close(); // Fermer l'application si l'utilisateur confirme qu'il veut quitter
         }else{
             confirmationQuitter.close(); // Fermer la boîte de dialogue si l'utilisateur annule l'action de quitter
         }
+    }
+
+    /**
+     * Méthode privée pour créer et configurer une boîte de dialogue de confirmation pour quitter le jeu.
+     * Cette méthode est utilisée dans la méthode onBtnQuitterLeJeuAction() pour afficher une boîte de dialogue
+     * demandant à l'utilisateur s'il est sûr de vouloir quitter le jeu, et pour fournir des options de confirmation (OK) ou d'annulation (Annuler).
+     * @return confirmationQuitter - une instance de la classe Alert configurée pour demander à l'utilisateur s'il est sûr
+     * de vouloir quitter le jeu, avec des options de confirmation et d'annulation
+     * **/
+    private static Alert getAlert() {
+        Alert confirmationQuitter = new Alert(Alert.AlertType.CONFIRMATION); // Créer une boîte de dialogue de confirmation pour quitter le jeu
+        confirmationQuitter.setTitle("Confirmation de quitter le jeu"); // Définir le titre de la boîte de dialogue
+        confirmationQuitter.setHeaderText("Êtes-vous sûr de vouloir quitter le jeu ?"); // Définir le texte d'en-tête de la boîte de dialogue
+        confirmationQuitter.setContentText("Cliquez sur OK pour quitter, ou sur Annuler pour rester dans le jeu."); // Définir le texte de contenu de la boîte de dialogue
+        return confirmationQuitter;
     }
 }

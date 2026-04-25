@@ -3,9 +3,8 @@ package com.example.travail_pratique_2;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,8 +36,8 @@ public class JeuController implements Initializable {
 
     static final HashMap<Integer, Integer> SERPENTS_ET_ECHELLES = new HashMap<>(); // Map statique pour stocker les positions des serpents et échelles, accessible depuis d'autres classes (ex: Mecanisme)
 
-    private final Joueur joueur = new Joueur('J'); // Joueur humain, représenté par le pion vert
-    private final Joueur ordinateur = new Joueur('A'); // Joueur ordinateur, représenté par le pion rouge
+    private Joueur joueur = new Joueur('J'); // Joueur humain, représenté par le pion vert
+    private Joueur ordinateur = new Joueur('A'); // Joueur ordinateur, représenté par le pion rouge
     Button pionVert; // Pion du joueur humain
     Button pionRouge; // Pion de l'ordinateur
 
@@ -151,7 +150,7 @@ public class JeuController implements Initializable {
      * @param event l'événement déclenché par le clic sur le bouton "Lancer le dé"
      * **/
     @FXML
-    void onBtnLancerDeAction(ActionEvent event) throws IOException {
+    void onLancerDeAction(MouseEvent event) throws IOException {
 
         if (!tourDuJoueur) return; // Si ce n'est pas le tour du joueur humain, ignorer l'action pour éviter les conflits avec le tour de l'ordinateur
 
@@ -162,6 +161,7 @@ public class JeuController implements Initializable {
 
         // Vérification de la condition de victoire pour le joueur humain (position 100)
         if (Mecanisme.joueurVainqueur(joueur)) {
+            labelTourDuJoueur.setStyle("-fx-text-fill: green; -fx-font-size: 24px; -fx-font-weight: bold;"); // Style pour le message de victoire du joueur humain
             labelTourDuJoueur.setText("**Le joueur a gagné**"); // Afficher le message de victoire pour le joueur humain
             terminerJeu(); // Terminer le jeu et afficher le message de fin
             return; // Sortir de la méthode pour éviter de passer au tour de l'ordinateur après que le joueur humain a gagné
@@ -200,7 +200,8 @@ public class JeuController implements Initializable {
 
             // Vérification de la condition de victoire pour l'ordinateur (position 100)
             if (Mecanisme.joueurVainqueur(ordinateur)) {
-                labelTourDuJoueur.setText("**L'ordinateur a gagné**");
+                labelTourDuJoueur.setStyle("-fx-text-fill: red; -fx-font-size: 24px; -fx-font-weight: bold;"); // Style pour le message de victoire du joueur humain
+                labelTourDuJoueur.setText("**L'ordinateur a gagné**"); // Afficher le message de victoire pour l'ordinateur
                 terminerJeu();
                 return;
             }
@@ -221,9 +222,27 @@ public class JeuController implements Initializable {
      * et permettre au joueur de recommencer une nouvelle partie à partir de zéro
      * **/
     @FXML
-    void onBtnRecommencerPartieAction(ActionEvent event) throws IOException {
-        JeuSerpentEtEchelleApplication.stage.setTitle("jeu");
-        JeuSerpentEtEchelleApplication.chargerPage("jeu-view");
+    void onBtnRecommencerLaPartieAction(ActionEvent event) throws IOException {
+        Alert confirmationRecommencer = getConfirmationRecommencerLaPartie();
+        if(confirmationRecommencer.showAndWait().orElse(null) == ButtonType.OK) { // Si l'utilisateur confirme qu'il veut recommencer la partie
+            JeuSerpentEtEchelleApplication.stage.setTitle("Jeu"); // Mettre à jour le titre de la fenêtre pour refléter la page de jeu
+            JeuSerpentEtEchelleApplication.chargerPage("jeu-view"); // Charger la page de jeu dans la section centrale de l'application pour réinitialiser tous les éléments du jeu et permettre au joueur de recommencer une nouvelle partie à partir de zéro
+        }
+    }
+
+    /**
+     * Méthode privée pour créer et configurer une boîte de dialogue de confirmation pour recommencer la partie.
+     * Cette méthode est utilisée dans la méthode onBtnRecommencerLaPartieAction() pour afficher une boîte de dialogue
+     * demandant à l'utilisateur s'il est sûr de vouloir recommencer la partie, et pour fournir des options de confirmation (OK) ou d'annulation (Annuler).
+     * @return confirmationRecommencer - une instance de la classe Alert configurée pour demander à l'utilisateur s'il est sûr de vouloir recommencer
+     * la partie, avec des options de confirmation et d'annulation
+     * **/
+    private static Alert getConfirmationRecommencerLaPartie() {
+        Alert confirmationRecommencer = getConfirmationQuitterLaParite(); // Créer une boîte de dialogue de confirmation pour recommencer la partie
+        confirmationRecommencer.setTitle("Confirmation de recommencer la partie"); // Définir le titre de la boîte de dialogue pour refléter l'action de recommencer la partie
+        confirmationRecommencer.setHeaderText("Êtes-vous sûr de vouloir recommencer la partie ?"); // Définir le texte d'en-tête de la boîte de dialogue pour refléter l'action de recommencer la partie
+        confirmationRecommencer.setContentText("Cliquez sur OK pour recommencer, ou sur Annuler pour continuer la partie en cours."); // Définir le texte de contenu de la boîte de dialogue pour refléter l'action de recommencer la partie
+        return confirmationRecommencer;
     }
 
     /**
@@ -234,9 +253,28 @@ public class JeuController implements Initializable {
      * où il peut choisir de lire les règles du jeu, recommencer une partie, ou quitter le jeu, etc.
      * **/
     @FXML
-    void onBtnRetournerAccueilAction(ActionEvent event) throws IOException {
-        JeuSerpentEtEchelleApplication.stage.setTitle("Jeu de serpent et échelle");
-        JeuSerpentEtEchelleApplication.chargerPage("accueil-view");
+    void onBtnQuitterLaPartieAction(ActionEvent event) throws IOException {
+        Alert confirmationQuitter = getConfirmationQuitterLaParite(); // Créer une boîte de dialogue de confirmation pour quitter la partie
+        if(confirmationQuitter.showAndWait().orElse(null) == ButtonType.OK) { // Si l'utilisateur confirme qu'il veut quitter la partie
+            JeuSerpentEtEchelleApplication.stage.setTitle("Accueil"); // Mettre à jour le titre de la fenêtre pour refléter la page d'accueil
+            JeuSerpentEtEchelleApplication.chargerPage("accueil-view"); // Charger la page d'accueil dans la section centrale de l'application
+        }
+    }
+
+    /**
+     * Méthode privée pour créer et configurer une boîte de dialogue de confirmation pour quitter la partie.
+     * Cette méthode est utilisée dans la méthode onBtnQuitterLaPartieAction() pour afficher une boîte de
+     * dialogue demandant à l'utilisateur s'il est sûr de vouloir quitter la partie, et pour fournir
+     * des options de confirmation (OK) ou d'annulation (Annuler).
+     * @return confirmationQuitter - une instance de la classe Alert configurée pour demander à l'utilisateur
+     * s'il est sûr de vouloir quitter la partie, avec des options de confirmation et d'annulation
+     * **/
+    private static Alert getConfirmationQuitterLaParite() {
+        Alert confirmationQuitter = new Alert(Alert.AlertType.CONFIRMATION); // Créer une boîte de dialogue de confirmation pour quitter la partie
+        confirmationQuitter.setTitle("Confirmation de quitter la partie"); // Définir le titre de la boîte de dialogue
+        confirmationQuitter.setHeaderText("Êtes-vous sûr de vouloir quitter la partie ?"); // Définir le texte d'en-tête de la boîte de dialogue
+        confirmationQuitter.setContentText("Cliquez sur OK pour quitter, ou sur Annuler pour rester dans la partie."); // Définir le texte de contenu de la boîte de dialogue
+        return confirmationQuitter;
     }
 
     /**
